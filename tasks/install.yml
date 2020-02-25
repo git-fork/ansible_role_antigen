@@ -1,11 +1,11 @@
 ---
 - name: install dependencies
-  become: yes
+  become: '{{ ansible_pkg_mgr | regex_search("brew$") | ternary(False, True) }}'
   package:
     name:
       - git
       - zsh
-      - tar
+      - '{{ ansible_pkg_mgr | regex_search("brew$") | ternary("gnu-tar", tar) }}'
       - gzip
     state: present
 
